@@ -4,10 +4,10 @@ import json
 model = whisper.load_model("medium")
 
 
-result=model.transcribe(audio="audio/sample.mp3", language="en", task="transcribe" , word_timestamps=False)
+result=model.transcribe(audio="audio/sample.mp3", language="hi", task="transcribe" , word_timestamps=False)
 
 # print(result["segments"])
-chunks=[]
+chunks = []
 
 for segment in result["segments"]:
     chunk = {
