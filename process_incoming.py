@@ -5,15 +5,19 @@ import joblib
 import requests
 
 
-def create_embedding(text_list):
+def create_embedding(text_list, batch_size=50):
     # https://github.com/ollama/ollama/blob/main/docs/api.md#generate-embeddings
-    r = requests.post("http://localhost:11434/api/embed", json={
-        "model": "bge-m3",
-        "input": text_list
-    })
+    embeddings = []
+    for i in range(0, len(text_list), batch_size):
+        r = requests.post("http://localhost:11434/api/embed", json={
+            "model": "bge-m3",
+            "input": text_list[i:i + batch_size]
+        })
+        r.raise_for_status()
+        embeddings.extend(r.json()["embeddings"])
+    return embeddings
 
-    embedding = r.json()["embeddings"] 
-    return embedding
+
 
 def inference(prompt):
     r = requests.post("http://localhost:11434/api/generate", json={
