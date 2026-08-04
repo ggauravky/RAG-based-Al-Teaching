@@ -67,3 +67,6 @@
 
 
 *.env
+
+!ss/p1.png
+!ss/p2.png
